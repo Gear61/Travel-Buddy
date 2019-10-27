@@ -3,4 +3,5 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:fromYDelta="100%p"
     android:toYDelta="0%p"
-    android:duration="@integer/default_anim_length"/>
+    android:duration="@integer/default_anim_length"
+    />

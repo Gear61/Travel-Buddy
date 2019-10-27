@@ -12,6 +12,7 @@ import com.randomappsinc.travelbuddy.R;
 import com.randomappsinc.travelbuddy.addnote.AddNoteActivity;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends StandardActivity {
@@ -23,6 +24,7 @@ public class MainActivity extends StandardActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         addNote.setImageDrawable(
                 new IconDrawable(this, IoniconsIcons.ion_android_add)

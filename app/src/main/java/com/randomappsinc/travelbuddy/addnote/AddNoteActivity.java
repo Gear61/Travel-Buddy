@@ -62,5 +62,7 @@ public class AddNoteActivity extends StandardActivity implements DateTimeAdder.L
         Note note = new Note(title, chosenTime, TimeZone.getDefault(), description);
         Intent returnData = new Intent();
         returnData.putExtra(MainActivity.NOTE_KEY, note);
+        setResult(RESULT_OK, returnData);
+        finish();
     }
 }

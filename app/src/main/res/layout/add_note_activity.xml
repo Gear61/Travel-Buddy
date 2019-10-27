@@ -29,7 +29,6 @@
             >
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/dish_name_section"
                 style="@style/card_view"
                 >
 
@@ -45,6 +44,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/date_picker_section"
+                android:layout_marginTop="8dp"
                 style="@style/card_view">
 
                 <TextView
@@ -55,6 +55,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/note_description_section"
+                android:layout_marginTop="8dp"
                 style="@style/card_view"
                 >
 

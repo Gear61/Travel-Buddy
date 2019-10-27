@@ -65,7 +65,7 @@ public class MainActivity extends StandardActivity implements NotesAdapter.Liste
     }
 
     @Override
-    public void onNoteClicked() {
+    public void onNoteClicked(Note note) {
 
     }
 }

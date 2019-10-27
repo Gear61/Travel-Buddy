@@ -2,10 +2,13 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     tools:ignore="SpUsage, RtlHardcoded, ContentDescription"
     >
 
@@ -26,6 +29,15 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="19sp"
+                />
+
+            <TextView
+                android:id="@+id/note_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/gray"
+                android:textSize="15sp"
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

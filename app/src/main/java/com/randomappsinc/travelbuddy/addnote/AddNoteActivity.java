@@ -1,13 +1,11 @@
 package com.randomappsinc.travelbuddy.addnote;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.randomappsinc.travelbuddy.R;
-import com.randomappsinc.travelbuddy.common.Note;
 import com.randomappsinc.travelbuddy.common.StandardActivity;
-import com.randomappsinc.travelbuddy.home.MainActivity;
+import com.randomappsinc.travelbuddy.persistence.DataSource;
 import com.randomappsinc.travelbuddy.util.TimeUtil;
 import com.randomappsinc.travelbuddy.util.UIUtil;
 
@@ -65,10 +63,9 @@ public class AddNoteActivity extends StandardActivity implements DateTimeAdder.L
             return;
         }
         String description = descriptionInput.getText().toString().trim();
-        Note note = new Note(title, chosenTime, TimeZone.getDefault(), description);
-        Intent returnData = new Intent();
-        returnData.putExtra(MainActivity.NOTE_KEY, note);
-        setResult(RESULT_OK, returnData);
+
+        DataSource dataSource = new DataSource(this);
+        dataSource.addNote(title, chosenTime, timeZone.getID(), description);
         finish();
     }
 }

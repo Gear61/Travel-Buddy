@@ -15,7 +15,6 @@ import com.randomappsinc.travelbuddy.util.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,16 +27,17 @@ public class NotesAdapter
         void onNoteClicked(Note note);
     }
 
-    protected Listener listener;
-    protected List<Note> notes = new ArrayList<>();
+    private Listener listener;
+    private List<Note> notes = new ArrayList<>();
 
-    public NotesAdapter(Listener listener) {
+    NotesAdapter(Listener listener) {
         this.listener = listener;
     }
 
-    public void addNote(Note note) {
-        notes.add(note);
-        notifyItemInserted(getItemCount() - 1);
+    void setNotes(List<Note> notes) {
+        this.notes.clear();
+        this.notes.addAll(notes);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -85,7 +85,8 @@ public class NotesAdapter
             }
 
             location.setText("Palestine");
-            time.setText(TimeUtil.getDefaultTimeText(note.getNoteTakenTime(), TimeZone.getDefault()));
+            time.setText(TimeUtil.getDefaultTimeText(
+                    note.getNoteTakenTime(), note.getNoteTakenTimeZone()));
         }
 
         @OnClick(R.id.parent)

@@ -1,5 +1,6 @@
 package com.randomappsinc.travelbuddy.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.IoniconsIcons;
 import com.randomappsinc.travelbuddy.R;
+import com.randomappsinc.travelbuddy.addnote.AddNoteActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,6 +31,6 @@ public class MainActivity extends StandardActivity {
 
     @OnClick(R.id.add_note)
     public void addNote() {
-
+        startActivity(new Intent(this, AddNoteActivity.class));
     }
 }

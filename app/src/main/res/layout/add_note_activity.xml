@@ -43,6 +43,18 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/add_location_section"
+                android:layout_marginTop="8dp"
+                style="@style/card_view">
+
+                <TextView
+                    android:id="@+id/location_text"
+                    android:hint="@string/note_location_hint"
+                    style="@style/form_input"
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/date_picker_section"
                 android:layout_marginTop="8dp"
                 style="@style/card_view">
@@ -54,7 +66,6 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/note_description_section"
                 android:layout_marginTop="8dp"
                 style="@style/card_view"
                 >

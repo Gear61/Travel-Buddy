@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.randomappsinc.travelbuddy.R;
 import com.randomappsinc.travelbuddy.common.Note;
+import com.randomappsinc.travelbuddy.util.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +64,8 @@ public class NotesAdapter
 
         @BindView(R.id.note_title) TextView title;
         @BindView(R.id.note_description) TextView description;
+        @BindView(R.id.note_location) TextView location;
+        @BindView(R.id.note_time) TextView time;
 
         NoteViewHolder(View view) {
             super(view);
@@ -79,6 +83,9 @@ public class NotesAdapter
                 description.setVisibility(View.VISIBLE);
                 description.setText(note.getDescription());
             }
+
+            location.setText("Palestine");
+            time.setText(TimeUtil.getDefaultTimeText(note.getNoteTakenTime(), TimeZone.getDefault()));
         }
 
         @OnClick(R.id.parent)

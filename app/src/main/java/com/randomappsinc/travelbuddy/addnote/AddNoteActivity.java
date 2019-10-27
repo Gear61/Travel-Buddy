@@ -40,7 +40,12 @@ public class AddNoteActivity extends StandardActivity implements DateTimeAdder.L
         dateTimeText.setText(TimeUtil.getDefaultTimeText(chosenTime, timeZone));
     }
 
-    @OnClick(R.id.date_text)
+    @OnClick(R.id.add_location_section)
+    public void selectLocation() {
+        // TODO: Open the location picker activity here!!!
+    }
+
+    @OnClick(R.id.date_picker_section)
     public void selectDate() {
         dateTimeAdder.show(chosenTime);
     }
@@ -49,6 +54,7 @@ public class AddNoteActivity extends StandardActivity implements DateTimeAdder.L
     public void onDateTimeChosen(long timeChosen) {
         chosenTime = timeChosen;
         dateTimeText.setText(TimeUtil.getDefaultTimeText(chosenTime, timeZone));
+        UIUtil.showShortToast(R.string.time_set_success, this);
     }
 
     @OnClick(R.id.save)

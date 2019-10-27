@@ -4,7 +4,9 @@
     <string name="save">Save</string>
 
     <string name="note_title_hint">What\'s the title of this note?</string>
+    <string name="note_location_hint">Where is this note for?</string>
     <string name="note_description_hint">Is there anything else you would like to say?</string>
 
+    <string name="time_set_success">Successfully updated the time!</string>
     <string name="empty_title_error">Please enter in a title.</string>
 </resources>

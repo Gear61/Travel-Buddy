@@ -1,10 +1,12 @@
 package com.randomappsinc.travelbuddy.addnote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.randomappsinc.travelbuddy.R;
 import com.randomappsinc.travelbuddy.common.StandardActivity;
+import com.randomappsinc.travelbuddy.location.LocationPickerActivity;
 import com.randomappsinc.travelbuddy.persistence.DataSource;
 import com.randomappsinc.travelbuddy.util.TimeUtil;
 import com.randomappsinc.travelbuddy.util.UIUtil;
@@ -40,7 +42,8 @@ public class AddNoteActivity extends StandardActivity implements DateTimeAdder.L
 
     @OnClick(R.id.add_location_section)
     public void selectLocation() {
-        // TODO: Open the location picker activity here!!!
+        startActivityForResult(
+                new Intent(this, LocationPickerActivity.class), 1);
     }
 
     @OnClick(R.id.date_picker_section)
@@ -66,6 +69,7 @@ public class AddNoteActivity extends StandardActivity implements DateTimeAdder.L
 
         DataSource dataSource = new DataSource(this);
         dataSource.addNote(title, chosenTime, timeZone.getID(), description);
+        UIUtil.showShortToast(R.string.note_add_success, this);
         finish();
     }
 }

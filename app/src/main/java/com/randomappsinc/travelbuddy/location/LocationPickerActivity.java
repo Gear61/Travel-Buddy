@@ -38,6 +38,7 @@ import java.util.StringJoiner; */
 
 import androidx.fragment.app.FragmentActivity;
 
+// TODO: Laith to fill this in :D. Slack copy-pasta doesn't work in AS, RIP
 public class LocationPickerActivity extends FragmentActivity { // implements OnMapReadyCallback {
 
     /* private GoogleMap mMap;

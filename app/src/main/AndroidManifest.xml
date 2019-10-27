@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme"
         >
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -30,6 +30,7 @@
 
         <activity
             android:name=".addnote.AddNoteActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/add_note"
             />
     </application>

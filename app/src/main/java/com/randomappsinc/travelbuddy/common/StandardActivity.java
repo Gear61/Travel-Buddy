@@ -1,4 +1,4 @@
-package com.randomappsinc.travelbuddy.activity;
+package com.randomappsinc.travelbuddy.common;
 
 import android.content.Intent;
 import android.view.MenuItem;

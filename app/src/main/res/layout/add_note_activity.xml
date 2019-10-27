@@ -30,20 +30,22 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/dish_name_section"
-                style="@style/form_card"
+                style="@style/card_view"
                 >
 
                 <EditText
                     android:id="@+id/note_title_input"
                     android:hint="@string/note_title_hint"
                     android:inputType="textCapWords"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
                     style="@style/form_input"
                     />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/date_picker_section"
-                style="@style/form_card">
+                style="@style/card_view">
 
                 <TextView
                     android:id="@+id/date_text"
@@ -53,7 +55,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/note_description_section"
-                style="@style/form_card"
+                style="@style/card_view"
                 >
 
                 <EditText

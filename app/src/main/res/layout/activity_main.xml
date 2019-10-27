@@ -14,6 +14,17 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
 
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/no_notes_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:padding="16dp"
+        android:text="@string/no_notes"
+        android:textColor="@color/dark_gray"
+        android:textSize="25sp"
+        />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_note"
         android:layout_width="wrap_content"

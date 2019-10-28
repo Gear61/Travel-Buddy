@@ -48,19 +48,20 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0-alpha01'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.jakewharton:butterknife:10.1.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
-    implementation ('com.joanzapata.iconify:android-iconify-ionicons:2.2.2') {
+    implementation('com.joanzapata.iconify:android-iconify-ionicons:2.2.2') {
         exclude group: 'com.android.support'
     }
-    implementation ('com.afollestad.material-dialogs:core:0.9.6.0') {
+    implementation('com.afollestad.material-dialogs:core:0.9.6.0') {
         exclude group: 'com.android.support'
     }
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation ('com.squareup.picasso:picasso:2.71828') {
+    implementation('com.squareup.picasso:picasso:2.71828') {
         exclude group: 'com.android.support'
     }
-    implementation ('com.github.chrisbanes:PhotoView:2.1.4') {
+    implementation('com.github.chrisbanes:PhotoView:2.1.4') {
         exclude group: 'com.android.support'
     }
 }

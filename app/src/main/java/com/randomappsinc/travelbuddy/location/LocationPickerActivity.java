@@ -1,190 +1,98 @@
 package com.randomappsinc.travelbuddy.location;
 
-/* import androidx.fragment.app.FragmentActivity;
-
-import android.location.Address;
-
-import android.location.Geocoder;
-
 import android.os.Bundle;
 
-import android.view.View;
-
-import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
-
 import com.google.android.gms.maps.GoogleMap;
-
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-
-import com.google.android.gms.maps.SupportMapFragment;
-
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.randomappsinc.travelbuddy.R;
+import com.randomappsinc.travelbuddy.util.LocationUtil;
 
-import java.io.IOException;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-import java.math.BigDecimal;
+public class LocationPickerActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-import java.math.RoundingMode;
+    @BindView(R.id.map_view) MapView mapView;
 
-import java.util.List;
-
-import java.util.Locale;
-
-import java.util.StringJoiner; */
-
-import androidx.fragment.app.FragmentActivity;
-
-// TODO: Laith to fill this in :D. Slack copy-pasta doesn't work in AS, RIP
-public class LocationPickerActivity extends FragmentActivity { // implements OnMapReadyCallback {
-
-    /* private GoogleMap mMap;
-
-    private TextView locationTextView;
-
-    private TextView latLongTextView;
+    private GoogleMap googleMap;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_maps);
+        ButterKnife.bind(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-
-                .findFragmentById(R.id.map);
-
-        mapFragment.getMapAsync(this);
-
-        locationTextView = findViewById(R.id.location_name);
-
-        latLongTextView = findViewById(R.id.lat_long);
-
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
 
-        mMap = googleMap;
+        // Add a marker in Sydney and move the camera
+        LatLng sanFrancisco = new LatLng(37.8, 122.4);
+        googleMap.addMarker(new MarkerOptions().position(sanFrancisco).title("Marker in SF"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sanFrancisco));
 
-        LatLng khalilLatLong = new LatLng(31.52935, 35.0938);
+        googleMap.setOnMapClickListener(latLong -> {
+            googleMap.clear();
+            String locationText = LocationUtil.getLocationText(latLong, this);
+            googleMap.addMarker(new MarkerOptions()
+                    .position(latLong)
+                    .title(getString(R.string.hello_from_location, locationText)));
 
-        mMap.addMarker(new MarkerOptions().position(khalilLatLong).title("My hometown Al-Khalil"));
-
-        setLocationName(khalilLatLong);
-
-        latLongTextView.setText(round(khalilLatLong.latitude,2) + ", " + round(khalilLatLong.longitude, 2));
-
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(khalilLatLong));
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
-            @Override
-
-            public void onMapClick(LatLng latLng) {
-
-                mMap.clear();
-
-                mMap.addMarker(new MarkerOptions().position(latLng).title("Hello from " + getLocationText(latLng) + "!"));
-
-                setLocationName(latLng);
-
-                latLongTextView.setText(round(latLng.latitude,2) + ", " + round(latLng.longitude, 2));
-
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-
-            }
-
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(latLong)
+                    .zoom(16)
+                    .bearing(0)
+                    .tilt(0)
+                    .build();
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         });
-
     }
 
-    private void setLocationName(LatLng latLng) {
-
-        locationTextView.setText(getLocationText(latLng));
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
     }
 
-    private String getLocationText(LatLng latLng) {
-
-        // Try to get the location from Geocoder
-
-        Geocoder gcd = new Geocoder(getApplicationContext(), Locale.getDefault());
-
-        List<Address> addresses = null;
-
-        try {
-
-            addresses = gcd.getFromLocation(latLng.latitude, latLng.longitude, 1);
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-        }
-
-        // Put together the proper string using a string builder.
-
-        // We start off with "Unknown" in case there is no address
-
-        StringBuilder builder = new StringBuilder("Unknown");
-
-        if (addresses != null && !addresses.isEmpty()) {
-
-            Address address = addresses.get(0);
-
-            if (address.getLocality() != null) {
-
-                // Clear "Unknown" from the StringBuilder since we will add some info
-
-                builder.setLength(0);
-
-                builder.append(address.getLocality());
-
-                if (address.getCountryName() != null) {
-
-                    builder.append(", " + getProperCountryName(address.getCountryName()));
-
-                }
-
-            } else if (address.getCountryName() != null) {
-
-                // Clear "Unknown" from the StringBuilder since we will add some info
-
-                builder.setLength(0);
-
-                builder.append(getProperCountryName(address.getCountryName()));
-
-            }
-
-        }
-
-        return builder.toString();
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
     }
 
-    private static String getProperCountryName(String countryName) {
-
-        return countryName.equals("Israel") ? "Palestine" : countryName;
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
     }
 
-    private static double round(double value, int places) {
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
 
-        if (places < 0) throw new IllegalArgumentException();
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
 
-        BigDecimal bd = new BigDecimal(value);
-
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-
-        return bd.doubleValue();
-
-    } */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
 }

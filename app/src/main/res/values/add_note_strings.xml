@@ -11,4 +11,7 @@
     <string name="empty_title_error">Please enter in a title.</string>
 
     <string name="note_add_success">Note successfully added!</string>
+
+    <string name="location_picker_title">Pick Location</string>
+    <string name="hello_from_location">Hello from %s!</string>
 </resources>

@@ -1,15 +1,22 @@
 package com.randomappsinc.travelbuddy.addnote;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.randomappsinc.travelbuddy.R;
 import com.randomappsinc.travelbuddy.common.Note;
+import com.randomappsinc.travelbuddy.common.PhotoTakerManager;
 import com.randomappsinc.travelbuddy.common.StandardActivity;
 import com.randomappsinc.travelbuddy.location.LocationPickerActivity;
 import com.randomappsinc.travelbuddy.persistence.DataSource;
+import com.randomappsinc.travelbuddy.util.PermissionUtil;
 import com.randomappsinc.travelbuddy.util.TimeUtil;
 import com.randomappsinc.travelbuddy.util.UIUtil;
 
@@ -19,7 +26,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AddNoteActivity extends StandardActivity implements DateTimeAdder.Listener {
+public class AddNoteActivity extends StandardActivity
+        implements DateTimeAdder.Listener, PhotoTakerManager.Listener {
+
+    private static final int CAMERA_CODE = 1;
 
     public static final String LATITUDE_KEY = "latitude";
     public static final String LONGITUDE_KEY = "longitude";
@@ -34,6 +44,7 @@ public class AddNoteActivity extends StandardActivity implements DateTimeAdder.L
     private DateTimeAdder dateTimeAdder;
     private long chosenTime;
     private LatLng chosenLocation;
+    private PhotoTakerManager photoTakerManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +56,49 @@ public class AddNoteActivity extends StandardActivity implements DateTimeAdder.L
         dateTimeAdder = new DateTimeAdder(getFragmentManager(), this);
         chosenTime = System.currentTimeMillis();
         dateTimeText.setText(TimeUtil.getDefaultTimeText(chosenTime, timeZone));
+
+        photoTakerManager = new PhotoTakerManager(this);
+    }
+
+    @OnClick(R.id.take_picture)
+    public void takePicture() {
+        maybeStartCameraPage();
+    }
+
+    private void maybeStartCameraPage() {
+        if (PermissionUtil.isPermissionGranted(Manifest.permission.CAMERA, this)) {
+            Intent takePhotoIntent = photoTakerManager.getPhotoTakingIntent(this);
+            if (takePhotoIntent == null) {
+                UIUtil.showLongToast(
+                        R.string.take_photo_with_camera_failed, this);
+            } else {
+                startActivityForResult(takePhotoIntent, CAMERA_CODE);
+            }
+        } else {
+            PermissionUtil.requestPermission(this, Manifest.permission.CAMERA, CAMERA_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
+        if (grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                && requestCode == CAMERA_CODE) {
+            maybeStartCameraPage();
+        }
+    }
+
+    @Override
+    public void onTakePhotoFailure() {
+
+    }
+
+    @Override
+    public void onTakePhotoSuccess(Bitmap bitmap) {
+
     }
 
     @OnClick(R.id.add_location_section)

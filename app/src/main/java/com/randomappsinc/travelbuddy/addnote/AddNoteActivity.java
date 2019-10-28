@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,11 +30,13 @@ import butterknife.OnClick;
 public class AddNoteActivity extends StandardActivity
         implements DateTimeAdder.Listener, PhotoTakerManager.Listener {
 
-    private static final int CAMERA_CODE = 1;
+    private static final int LOCATION_REQUEST_CODE = 1;
+    private static final int CAMERA_CODE = 2;
 
     public static final String LATITUDE_KEY = "latitude";
     public static final String LONGITUDE_KEY = "longitude";
 
+    @BindView(R.id.image) ImageView imageView;
     @BindView(R.id.note_title_input) TextView titleInput;
     @BindView(R.id.date_text) TextView dateTimeText;
     @BindView(R.id.location_text) TextView locationText;
@@ -98,13 +101,13 @@ public class AddNoteActivity extends StandardActivity
 
     @Override
     public void onTakePhotoSuccess(Bitmap bitmap) {
-
+        runOnUiThread(() -> imageView.setImageBitmap(bitmap));
     }
 
     @OnClick(R.id.add_location_section)
     public void selectLocation() {
         startActivityForResult(
-                new Intent(this, LocationPickerActivity.class), 1);
+                new Intent(this, LocationPickerActivity.class), LOCATION_REQUEST_CODE);
     }
 
     @OnClick(R.id.date_picker_section)
@@ -122,12 +125,21 @@ public class AddNoteActivity extends StandardActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            double latitude = data.getDoubleExtra(LATITUDE_KEY, 0);
-            double longitude = data.getDoubleExtra(LONGITUDE_KEY, 0);
-            chosenLocation = new LatLng(latitude, longitude);
-            String locationString = latitude + ", " + longitude;
-            locationText.setText(locationString);
+        switch (requestCode) {
+            case LOCATION_REQUEST_CODE:
+                double latitude = data.getDoubleExtra(LATITUDE_KEY, 0);
+                double longitude = data.getDoubleExtra(LONGITUDE_KEY, 0);
+                chosenLocation = new LatLng(latitude, longitude);
+                String locationString = latitude + ", " + longitude;
+                locationText.setText(locationString);
+                break;
+            case CAMERA_CODE:
+                if (resultCode == RESULT_OK) {
+                    photoTakerManager.processTakenPhoto(this);
+                } else if (resultCode == RESULT_CANCELED) {
+                    photoTakerManager.deleteLastTakenPhoto();
+                }
+                break;
         }
     }
 

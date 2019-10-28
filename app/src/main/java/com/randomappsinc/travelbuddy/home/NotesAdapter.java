@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.randomappsinc.travelbuddy.R;
 import com.randomappsinc.travelbuddy.common.Note;
 import com.randomappsinc.travelbuddy.util.TimeUtil;
+import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class NotesAdapter
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.note_cell,
+                R.layout.note_feed_cell,
                 parent,
                 false);
         return new NoteViewHolder(itemView);
@@ -64,9 +65,9 @@ public class NotesAdapter
     class NoteViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.note_title) TextView title;
+        @BindView(R.id.note_time) TextView subtitle;
+        @BindView(R.id.picture) ImageView picture;
         @BindView(R.id.note_description) TextView description;
-        @BindView(R.id.note_location) TextView location;
-        @BindView(R.id.note_time) TextView time;
 
         NoteViewHolder(View view) {
             super(view);
@@ -77,26 +78,27 @@ public class NotesAdapter
             Note note = notes.get(position);
             title.setText(note.getTitle());
 
+            Picasso.get()
+                    .load(note.getImagePath())
+                    .fit()
+                    .centerCrop()
+                    .into(picture);
+
             String descriptionText = note.getDescription();
             if (TextUtils.isEmpty(descriptionText)) {
                 description.setVisibility(View.GONE);
             } else {
                 description.setVisibility(View.VISIBLE);
-                description.setText(note.getDescription());
+                String wrappedDescription = "\"" + note.getDescription() + "\"";
+                description.setText(wrappedDescription);
             }
 
-            DecimalFormat formatter = new DecimalFormat("#.00000");
-            String cleanLat = formatter.format(note.getLocation().latitude);
-            String cleanLong = formatter.format(note.getLocation().longitude);
-            String finalLocationText = cleanLat + ", " + cleanLong;
-            location.setText(finalLocationText);
-            time.setText(TimeUtil.getDefaultTimeText(
-                    note.getNoteTakenTime(), note.getNoteTakenTimeZone()));
+            subtitle.setText(TimeUtil.getFeedTimeText(note.getTime(), note.getTimeZone()));
         }
 
-        @OnClick(R.id.parent)
-        void onCellClicked() {
-            listener.onNoteClicked(notes.get(getAdapterPosition()));
+        @OnClick(R.id.overflow_menu)
+        public void onOverflowClicked() {
+
         }
     }
 }

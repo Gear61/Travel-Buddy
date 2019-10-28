@@ -190,8 +190,15 @@ public class AddNoteActivity extends StandardActivity
             UIUtil.showLongToast(R.string.empty_location_error, this);
             return;
         }
+        Uri photoUri = photoTakerManager.getCurrentPhotoUri();
+        if (photoUri == null) {
+            UIUtil.showLongToast(R.string.no_image_attached, this);
+            return;
+        }
+
         String description = descriptionInput.getText().toString().trim();
-        Note note = new Note(title, chosenTime, timeZone, chosenLocation, description);
+        Note note = new Note(
+                title, chosenTime, timeZone, chosenLocation, description, photoUri.toString());
         DataSource dataSource = new DataSource(this);
         dataSource.addNote(note);
         UIUtil.showShortToast(R.string.note_add_success, this);

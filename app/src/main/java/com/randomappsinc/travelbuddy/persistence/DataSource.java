@@ -44,11 +44,12 @@ public class DataSource {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(NoteTable.COLUMN_NAME_TITLE, note.getTitle());
-        values.put(NoteTable.COLUMN_NAME_TIME, note.getNoteTakenTime());
-        values.put(NoteTable.COLUMN_NAME_TIMEZONE, note.getNoteTakenTimeZone().getID());
+        values.put(NoteTable.COLUMN_NAME_TIME, note.getTime());
+        values.put(NoteTable.COLUMN_NAME_TIMEZONE, note.getTimeZone().getID());
         values.put(NoteTable.COLUMN_NAME_LATITUDE, note.getLocation().latitude);
         values.put(NoteTable.COLUMN_NAME_LONGITUDE, note.getLocation().longitude);
         values.put(NoteTable.COLUMN_NAME_DESCRIPTION, note.getDescription());
+        values.put(NoteTable.COLUMN_NAME_IMAGE_PATH, note.getImagePath());
 
         database.insert(MySQLiteHelper.NoteTable.TABLE_NAME, null, values);
 
@@ -67,6 +68,7 @@ public class DataSource {
                 NoteTable.COLUMN_NAME_LATITUDE,
                 NoteTable.COLUMN_NAME_LONGITUDE,
                 NoteTable.COLUMN_NAME_DESCRIPTION,
+                NoteTable.COLUMN_NAME_IMAGE_PATH
         };
 
         // How you want the results sorted in the resulting Cursor
@@ -100,7 +102,9 @@ public class DataSource {
 
             String description = cursor.getString(cursor
                     .getColumnIndexOrThrow(NoteTable.COLUMN_NAME_DESCRIPTION));
-            notes.add(new Note(title, time, timeZone, location, description));
+            String imagePath = cursor.getString(cursor
+                    .getColumnIndexOrThrow(NoteTable.COLUMN_NAME_IMAGE_PATH));
+            notes.add(new Note(title, time, timeZone, location, description, imagePath));
         }
         cursor.close();
         close();

@@ -42,6 +42,7 @@ public class LocationPickerActivity extends StandardActivity
         mapView.getMapAsync(this);
 
         locationManager = new LocationManager(this, this);
+        chosenLocation = new LatLng(0, 0);
     }
 
     @Override

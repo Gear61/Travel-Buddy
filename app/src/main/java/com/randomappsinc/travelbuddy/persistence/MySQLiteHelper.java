@@ -15,6 +15,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         static final String COLUMN_NAME_LATITUDE = "latitude";
         static final String COLUMN_NAME_LONGITUDE = "longitude";
         static final String COLUMN_NAME_DESCRIPTION = "description";
+        static final String COLUMN_NAME_IMAGE_PATH = "image_path";
     }
 
     private static final String SQL_CREATE_ENTRIES =
@@ -25,7 +26,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                     NoteTable.COLUMN_NAME_TIMEZONE + " TEXT," +
                     NoteTable.COLUMN_NAME_LATITUDE + " DOUBLE," +
                     NoteTable.COLUMN_NAME_LONGITUDE + " DOUBLE," +
-                    NoteTable.COLUMN_NAME_DESCRIPTION + " TEXT)";
+                    NoteTable.COLUMN_NAME_DESCRIPTION + " TEXT," +
+                    NoteTable.COLUMN_NAME_IMAGE_PATH + " TEXT)";
 
     private static final String DATABASE_NAME = "travelbuddy.db";
     private static final int DATABASE_VERSION = 1;

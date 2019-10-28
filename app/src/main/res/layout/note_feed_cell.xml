@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="ContentDescription, RtlHardcoded, SpUsage, RtlSymmetry"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="8dp"
+        >
+
+        <com.joanzapata.iconify.widget.IconTextView
+            android:id="@+id/overflow_menu"
+            android:layout_alignParentRight="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/overflow_icon"
+            android:textColor="@color/dark_gray"
+            android:textSize="32dp"
+            />
+
+        <TextView
+            android:id="@+id/note_title"
+            android:layout_toLeftOf="@id/overflow_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="21dp"
+            />
+
+        <TextView
+            android:id="@+id/note_time"
+            android:layout_toLeftOf="@id/overflow_menu"
+            android:layout_below="@id/note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/dark_gray"
+            android:textSize="15dp"
+            />
+    </RelativeLayout>
+
+    <com.randomappsinc.travelbuddy.view.SquareImageView
+        android:id="@+id/picture"
+        android:layout_marginTop="4dp"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        />
+
+    <TextView
+        android:id="@+id/note_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="@color/gray"
+        android:textSize="17dp"
+        />
+</LinearLayout>

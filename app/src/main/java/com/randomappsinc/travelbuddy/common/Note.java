@@ -14,25 +14,32 @@ public class Note {
 
     private LatLng location;
     private String description;
+    private String imagePath;
 
     public Note(
-            String title, long noteTakenTime, TimeZone noteTakenTimeZone, LatLng location, String description) {
+            String title,
+            long noteTakenTime,
+            TimeZone noteTakenTimeZone,
+            LatLng location,
+            String description,
+            String imagePath) {
         this.title = title;
         this.noteTakenTime = noteTakenTime;
         this.noteTakenTimeZone = noteTakenTimeZone;
         this.location = location;
         this.description = description;
+        this.imagePath = imagePath;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public long getNoteTakenTime() {
+    public long getTime() {
         return noteTakenTime;
     }
 
-    public TimeZone getNoteTakenTimeZone() {
+    public TimeZone getTimeZone() {
         return noteTakenTimeZone;
     }
 
@@ -42,5 +49,9 @@ public class Note {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 }

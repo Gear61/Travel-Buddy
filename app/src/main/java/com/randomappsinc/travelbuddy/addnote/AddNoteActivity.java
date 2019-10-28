@@ -4,16 +4,21 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.maps.model.LatLng;
 import com.randomappsinc.travelbuddy.R;
+import com.randomappsinc.travelbuddy.common.Constants;
 import com.randomappsinc.travelbuddy.common.Note;
 import com.randomappsinc.travelbuddy.common.PhotoTakerManager;
+import com.randomappsinc.travelbuddy.common.PictureFullViewActivity;
 import com.randomappsinc.travelbuddy.common.StandardActivity;
 import com.randomappsinc.travelbuddy.location.LocationPickerActivity;
 import com.randomappsinc.travelbuddy.persistence.DataSource;
@@ -36,6 +41,7 @@ public class AddNoteActivity extends StandardActivity
     public static final String LATITUDE_KEY = "latitude";
     public static final String LONGITUDE_KEY = "longitude";
 
+    @BindView(R.id.take_picture) View takePicture;
     @BindView(R.id.image) ImageView imageView;
     @BindView(R.id.note_title_input) TextView titleInput;
     @BindView(R.id.date_text) TextView dateTimeText;
@@ -48,6 +54,7 @@ public class AddNoteActivity extends StandardActivity
     private long chosenTime;
     private LatLng chosenLocation;
     private PhotoTakerManager photoTakerManager;
+    private MaterialDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +68,29 @@ public class AddNoteActivity extends StandardActivity
         dateTimeText.setText(TimeUtil.getDefaultTimeText(chosenTime, timeZone));
 
         photoTakerManager = new PhotoTakerManager(this);
+
+        progressDialog = new MaterialDialog.Builder(this)
+                .content(R.string.processing_image)
+                .progress(true, 0)
+                .cancelable(false)
+                .build();
     }
 
     @OnClick(R.id.take_picture)
     public void takePicture() {
         maybeStartCameraPage();
+    }
+
+    @OnClick(R.id.image)
+    public void onImageClick() {
+        Uri imageUri = photoTakerManager.getCurrentPhotoUri();
+        if (imageUri != null) {
+            Intent intent = new Intent(this, PictureFullViewActivity.class)
+                    .putExtra(Constants.IMAGE_URL_KEY, imageUri.toString())
+                    .putExtra(Constants.CAPTION_KEY, titleInput.getText().toString().trim());
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, 0);
+        }
     }
 
     private void maybeStartCameraPage() {
@@ -96,12 +121,20 @@ public class AddNoteActivity extends StandardActivity
 
     @Override
     public void onTakePhotoFailure() {
-
+        runOnUiThread(() -> {
+            progressDialog.dismiss();
+            UIUtil.showLongToast(R.string.take_photo_with_camera_failed, this);
+        });
     }
 
     @Override
     public void onTakePhotoSuccess(Bitmap bitmap) {
-        runOnUiThread(() -> imageView.setImageBitmap(bitmap));
+        runOnUiThread(() -> {
+            takePicture.setVisibility(View.GONE);
+            imageView.setImageBitmap(bitmap);
+            imageView.setVisibility(View.VISIBLE);
+            progressDialog.dismiss();
+        });
     }
 
     @OnClick(R.id.add_location_section)
@@ -127,14 +160,17 @@ public class AddNoteActivity extends StandardActivity
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case LOCATION_REQUEST_CODE:
-                double latitude = data.getDoubleExtra(LATITUDE_KEY, 0);
-                double longitude = data.getDoubleExtra(LONGITUDE_KEY, 0);
-                chosenLocation = new LatLng(latitude, longitude);
-                String locationString = latitude + ", " + longitude;
-                locationText.setText(locationString);
-                break;
+                if (resultCode == RESULT_OK) {
+                    double latitude = data.getDoubleExtra(LATITUDE_KEY, 0);
+                    double longitude = data.getDoubleExtra(LONGITUDE_KEY, 0);
+                    chosenLocation = new LatLng(latitude, longitude);
+                    String locationString = latitude + ", " + longitude;
+                    locationText.setText(locationString);
+                    break;
+                }
             case CAMERA_CODE:
                 if (resultCode == RESULT_OK) {
+                    progressDialog.show();
                     photoTakerManager.processTakenPhoto(this);
                 } else if (resultCode == RESULT_CANCELED) {
                     photoTakerManager.deleteLastTakenPhoto();

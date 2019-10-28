@@ -15,7 +15,6 @@
         Travel Buddy needs location services to find out where you currently are.
     </string>
     <string name="location_services_confirm">Turn on location services</string>
-    <string name="enter_location_manually">Enter in location manually</string>
 
     <string name="location_permission_needed">Location Permission Needed</string>
     <string name="location_permission_denial">

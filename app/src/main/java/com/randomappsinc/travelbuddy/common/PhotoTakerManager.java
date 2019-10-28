@@ -31,8 +31,7 @@ public class PhotoTakerManager {
 
     private Listener listener;
     private Handler backgroundHandler;
-    private @Nullable
-    Uri currentPhotoUri;
+    private @Nullable Uri currentPhotoUri;
     private File currentPhotoFile;
 
     public PhotoTakerManager(Listener listener) {
@@ -93,5 +92,9 @@ public class PhotoTakerManager {
 
     public void deleteLastTakenPhoto() {
         FileUtil.deleteCameraImageWithUri(currentPhotoUri);
+    }
+
+    public Uri getCurrentPhotoUri() {
+        return currentPhotoUri;
     }
 }

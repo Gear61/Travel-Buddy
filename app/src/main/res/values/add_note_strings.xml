@@ -14,4 +14,6 @@
     <string name="note_add_success">Note successfully added!</string>
 
     <string name="location_picker_title">Pick Location</string>
+
+    <string name="processing_image">Processing image&#8230;</string>
 </resources>

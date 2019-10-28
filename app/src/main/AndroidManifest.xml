@@ -81,5 +81,11 @@
             android:label="@string/add_note"
             android:windowSoftInputMode="stateAlwaysHidden"
             />
+
+        <activity
+            android:name=".common.PictureFullViewActivity"
+            android:theme="@style/AppTheme.PictureFullView"
+            android:configChanges="orientation|screenSize"
+            />
     </application>
 </manifest>

@@ -70,7 +70,7 @@ class LocationManager {
                 .title(R.string.location_services_needed)
                 .content(R.string.location_services_denial)
                 .positiveText(R.string.location_services_confirm)
-                .negativeText(R.string.enter_location_manually)
+                .negativeText(R.string.cancel)
                 .onPositive((dialog, which) -> {
                     locationServicesManager.askForLocationServices(LOCATION_SERVICES_CODE);
                     listener.onServicesOrPermissionChoice();
@@ -86,7 +86,7 @@ class LocationManager {
                 .title(R.string.location_permission_needed)
                 .content(R.string.location_permission_denial)
                 .positiveText(R.string.give_location_permission)
-                .negativeText(R.string.enter_location_manually)
+                .negativeText(R.string.cancel)
                 .onPositive((dialog, which) -> {
                     requestLocationPermission();
                     listener.onServicesOrPermissionChoice();

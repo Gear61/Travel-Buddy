@@ -1,12 +1,14 @@
 <resources>
     <string name="app_name">Travel Buddy</string>
-
+    <string name="cancel">Cancel</string>
     <string name="no_notes">
         Use the {ion-android-add} button below to add your first note!
     </string>
 
+    <string name="close_icon">{ion-android-close}</string>
     <string name="camera_icon">{ion-android-camera}</string>
     <string name="take_photo_with_camera_failed">
         Sorry, we are unable to process your device\'s camera photos.
     </string>
+    <string name="image_load_fail">Failed to load image.</string>
 </resources>

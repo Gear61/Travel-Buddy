@@ -13,6 +13,7 @@ import com.randomappsinc.travelbuddy.R;
 import com.randomappsinc.travelbuddy.common.Note;
 import com.randomappsinc.travelbuddy.util.TimeUtil;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +85,11 @@ public class NotesAdapter
                 description.setText(note.getDescription());
             }
 
-            location.setText("Palestine");
+            DecimalFormat formatter = new DecimalFormat("#.00000");
+            String cleanLat = formatter.format(note.getLocation().latitude);
+            String cleanLong = formatter.format(note.getLocation().longitude);
+            String finalLocationText = cleanLat + ", " + cleanLong;
+            location.setText(finalLocationText);
             time.setText(TimeUtil.getDefaultTimeText(
                     note.getNoteTakenTime(), note.getNoteTakenTimeZone()));
         }

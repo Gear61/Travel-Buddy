@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.randomappsinc.travelbuddy.R;
+import com.randomappsinc.travelbuddy.addnote.AddNoteActivity;
 import com.randomappsinc.travelbuddy.common.StandardActivity;
 
 import butterknife.BindView;
@@ -28,6 +29,7 @@ public class LocationPickerActivity extends StandardActivity
     private GoogleMap googleMap;
     private LocationManager locationManager;
     private boolean denialLock;
+    private LatLng chosenLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class LocationPickerActivity extends StandardActivity
     }
 
     private void zoomToLocation(LatLng location) {
+        chosenLocation = location;
         googleMap.clear();
         googleMap.addMarker(new MarkerOptions().position(location));
         CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -104,7 +107,11 @@ public class LocationPickerActivity extends StandardActivity
 
     @OnClick(R.id.save)
     public void saveLocation() {
-
+        Intent intent = new Intent();
+        intent.putExtra(AddNoteActivity.LATITUDE_KEY, chosenLocation.latitude);
+        intent.putExtra(AddNoteActivity.LONGITUDE_KEY, chosenLocation.longitude);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override

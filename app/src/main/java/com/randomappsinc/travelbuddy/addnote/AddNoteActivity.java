@@ -84,6 +84,10 @@ public class AddNoteActivity extends StandardActivity implements DateTimeAdder.L
             UIUtil.showLongToast(R.string.empty_title_error, this);
             return;
         }
+        if (chosenLocation == null) {
+            UIUtil.showLongToast(R.string.empty_location_error, this);
+            return;
+        }
         String description = descriptionInput.getText().toString().trim();
         Note note = new Note(title, chosenTime, timeZone, chosenLocation, description);
         DataSource dataSource = new DataSource(this);

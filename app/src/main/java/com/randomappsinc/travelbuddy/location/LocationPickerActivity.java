@@ -18,6 +18,7 @@ import com.randomappsinc.travelbuddy.common.StandardActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LocationPickerActivity extends StandardActivity
         implements OnMapReadyCallback, LocationManager.Listener {
@@ -99,6 +100,11 @@ public class LocationPickerActivity extends StandardActivity
                 locationManager.showLocationDenialDialog();
             }
         }
+    }
+
+    @OnClick(R.id.save)
+    public void saveLocation() {
+
     }
 
     @Override

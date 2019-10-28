@@ -7,11 +7,13 @@ import android.provider.BaseColumns;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
-    public static class NoteTable implements BaseColumns {
+    static class NoteTable implements BaseColumns {
         static final String TABLE_NAME = "entry";
         static final String COLUMN_NAME_TITLE = "title";
         static final String COLUMN_NAME_TIME = "time";
         static final String COLUMN_NAME_TIMEZONE = "timezone";
+        static final String COLUMN_NAME_LATITUDE = "latitude";
+        static final String COLUMN_NAME_LONGITUDE = "longitude";
         static final String COLUMN_NAME_DESCRIPTION = "description";
     }
 
@@ -21,6 +23,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                     NoteTable.COLUMN_NAME_TITLE + " TEXT," +
                     NoteTable.COLUMN_NAME_TIME + " INTEGER," +
                     NoteTable.COLUMN_NAME_TIMEZONE + " TEXT," +
+                    NoteTable.COLUMN_NAME_LATITUDE + " DOUBLE," +
+                    NoteTable.COLUMN_NAME_LONGITUDE + " DOUBLE," +
                     NoteTable.COLUMN_NAME_DESCRIPTION + " TEXT)";
 
     private static final String DATABASE_NAME = "travelbuddy.db";

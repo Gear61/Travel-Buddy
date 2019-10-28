@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.randomappsinc.travelbuddy.common.Note;
 import com.randomappsinc.travelbuddy.persistence.MySQLiteHelper.NoteTable;
 
@@ -30,20 +31,24 @@ public class DataSource {
 
     // Terminate connection to database
     private void close() {
-        dbHelper.close();
+        if (database != null) {
+            database.close();
+        }
     }
 
-    public void addNote(String title, long timeOfNote, String timeZone, String description) {
+    public void addNote(Note note) {
         open();
 
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(NoteTable.COLUMN_NAME_TITLE, title);
-        values.put(NoteTable.COLUMN_NAME_TIME, timeOfNote);
-        values.put(NoteTable.COLUMN_NAME_TIMEZONE, timeZone);
-        values.put(NoteTable.COLUMN_NAME_DESCRIPTION, description);
+        values.put(NoteTable.COLUMN_NAME_TITLE, note.getTitle());
+        values.put(NoteTable.COLUMN_NAME_TIME, note.getNoteTakenTime());
+        values.put(NoteTable.COLUMN_NAME_TIMEZONE, note.getNoteTakenTimeZone().getID());
+        values.put(NoteTable.COLUMN_NAME_LATITUDE, note.getLocation().latitude);
+        values.put(NoteTable.COLUMN_NAME_LONGITUDE, note.getLocation().longitude);
+        values.put(NoteTable.COLUMN_NAME_DESCRIPTION, note.getDescription());
 
         database.insert(MySQLiteHelper.NoteTable.TABLE_NAME, null, values);
 
@@ -59,6 +64,8 @@ public class DataSource {
                 NoteTable.COLUMN_NAME_TITLE,
                 NoteTable.COLUMN_NAME_TIME,
                 NoteTable.COLUMN_NAME_TIMEZONE,
+                NoteTable.COLUMN_NAME_LATITUDE,
+                NoteTable.COLUMN_NAME_LONGITUDE,
                 NoteTable.COLUMN_NAME_DESCRIPTION,
         };
 
@@ -85,9 +92,15 @@ public class DataSource {
                     .getColumnIndexOrThrow(NoteTable.COLUMN_NAME_TIMEZONE));
             TimeZone timeZone = TimeZone.getTimeZone(timeZoneId);
 
+            double latitude = cursor.getDouble(cursor
+                    .getColumnIndexOrThrow(NoteTable.COLUMN_NAME_LATITUDE));
+            double longitude = cursor.getDouble(cursor
+                    .getColumnIndexOrThrow(NoteTable.COLUMN_NAME_LONGITUDE));
+            LatLng location = new LatLng(latitude, longitude);
+
             String description = cursor.getString(cursor
-                    .getColumnIndexOrThrow(NoteTable.COLUMN_NAME_TITLE));
-            notes.add(new Note(title, time, timeZone, description));
+                    .getColumnIndexOrThrow(NoteTable.COLUMN_NAME_DESCRIPTION));
+            notes.add(new Note(title, time, timeZone, location, description));
         }
         cursor.close();
         close();

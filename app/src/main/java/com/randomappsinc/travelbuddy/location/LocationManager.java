@@ -135,6 +135,7 @@ class LocationManager {
     }
 
     void fetchAutomaticLocation() {
+        UIUtil.showLongToast(R.string.location_services_on, activity);
         locationFetched = false;
         try {
             locationChecker.postDelayed(locationCheckTask, MILLISECONDS_BEFORE_FAILURE);

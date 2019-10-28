@@ -15,8 +15,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.randomappsinc.travelbuddy.R;
 import com.randomappsinc.travelbuddy.common.StandardActivity;
-import com.randomappsinc.travelbuddy.util.LocationUtil;
-import com.randomappsinc.travelbuddy.util.UIUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,11 +52,7 @@ public class LocationPickerActivity extends StandardActivity
 
     private void zoomToLocation(LatLng location) {
         googleMap.clear();
-        String locationText = LocationUtil.getLocationText(location, this);
-        googleMap.addMarker(new MarkerOptions()
-                .position(location)
-                .title(getString(R.string.hello_from_location, locationText)));
-
+        googleMap.addMarker(new MarkerOptions().position(location));
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(location)
                 .zoom(16)
@@ -99,7 +93,6 @@ public class LocationPickerActivity extends StandardActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LocationManager.LOCATION_SERVICES_CODE) {
             if (resultCode == RESULT_OK) {
-                UIUtil.showLongToast(R.string.location_services_on, this);
                 locationManager.fetchAutomaticLocation();
             } else {
                 denialLock = true;

@@ -22,8 +22,8 @@
         >
 
         <activity
-            android:name=".home.MainActivity"
-            android:configChanges="orientation|screenSize"
+            android:name=".init.SplashActivity"
+            android:theme="@style/SplashTheme"
             >
 
             <intent-filter>
@@ -31,6 +31,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".home.MainActivity"
+            android:configChanges="orientation|screenSize"
+            />
 
         <activity
             android:name=".addnote.AddNoteActivity"

@@ -12,7 +12,9 @@ import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.IoniconsIcons;
 import com.randomappsinc.travelbuddy.R;
 import com.randomappsinc.travelbuddy.addnote.AddNoteActivity;
+import com.randomappsinc.travelbuddy.common.Constants;
 import com.randomappsinc.travelbuddy.common.Note;
+import com.randomappsinc.travelbuddy.common.PictureFullViewActivity;
 import com.randomappsinc.travelbuddy.common.StandardActivity;
 import com.randomappsinc.travelbuddy.persistence.DataSource;
 
@@ -60,7 +62,11 @@ public class MainActivity extends StandardActivity implements NotesAdapter.Liste
     }
 
     @Override
-    public void onNoteClicked(Note note) {
-
+    public void onMediaClicked(Note note) {
+        Intent intent = new Intent(this, PictureFullViewActivity.class)
+                .putExtra(Constants.IMAGE_URL_KEY, note.getImagePath())
+                .putExtra(Constants.CAPTION_KEY, note.getTitle());
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, 0);
     }
 }

@@ -26,7 +26,7 @@ public class NotesAdapter
         extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder>{
 
     public interface Listener {
-        void onNoteClicked(Note note);
+        void onMediaClicked(Note note);
     }
 
     private Listener listener;
@@ -94,6 +94,11 @@ public class NotesAdapter
             }
 
             subtitle.setText(TimeUtil.getFeedTimeText(note.getTime(), note.getTimeZone()));
+        }
+
+        @OnClick(R.id.picture)
+        public void onMediaClicked() {
+            listener.onMediaClicked(notes.get(getAdapterPosition()));
         }
 
         @OnClick(R.id.overflow_menu)

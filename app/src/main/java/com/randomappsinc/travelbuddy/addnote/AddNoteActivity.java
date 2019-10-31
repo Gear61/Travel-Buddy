@@ -204,4 +204,10 @@ public class AddNoteActivity extends StandardActivity
         UIUtil.showShortToast(R.string.note_add_success, this);
         finish();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dateTimeAdder.cleanUp();
+    }
 }

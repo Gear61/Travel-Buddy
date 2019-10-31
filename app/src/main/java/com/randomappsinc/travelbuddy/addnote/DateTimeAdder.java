@@ -4,7 +4,7 @@ import android.app.FragmentManager;
 
 import java.util.Calendar;
 
-public class DateTimeAdder {
+class DateTimeAdder {
 
     public interface Listener {
         void onDateTimeChosen(long timeChosen);
@@ -48,7 +48,7 @@ public class DateTimeAdder {
         }
     };
 
-    public DateTimeAdder(FragmentManager fragmentManager, Listener listener) {
+    DateTimeAdder(FragmentManager fragmentManager, Listener listener) {
         this.fragmentManager = fragmentManager;
         calendar = Calendar.getInstance();
 
@@ -58,10 +58,15 @@ public class DateTimeAdder {
         timePickerFragment = new TimePickerFragment();
     }
 
-    public void show(long currentTime) {
+    void show(long currentTime) {
         this.currentTime = currentTime;
         datePickerFragment.setListener(dateListener);
         timePickerFragment.setListener(timeListener);
         datePickerFragment.show(fragmentManager, null);
+    }
+
+    void cleanUp() {
+        datePickerFragment = null;
+        timePickerFragment = null;
     }
 }

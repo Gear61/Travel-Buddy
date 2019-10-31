@@ -173,4 +173,8 @@ class LocationManager {
     private void onLocationFetchFail() {
         UIUtil.showLongToast(R.string.auto_location_fail, activity);
     }
+
+    void cleanUp() {
+        activity = null;
+    }
 }

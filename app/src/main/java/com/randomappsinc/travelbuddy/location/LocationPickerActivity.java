@@ -154,5 +154,6 @@ public class LocationPickerActivity extends StandardActivity
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+        locationManager.cleanUp();
     }
 }
